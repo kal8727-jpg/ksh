@@ -3,837 +3,646 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>황홀스레 | 나에게 딱 맞는 디저트는?</title>
+  <title>국내 인기 디저트 트렌드 2025-2026</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
-
-    :root {
-      --yellow-100: #FFFBEA;
-      --yellow-200: #FFF3B0;
-      --yellow-300: #FFE566;
-      --yellow-400: #FFD93D;
-      --yellow-500: #FFC107;
-      --coral:      #FF6B6B;
-      --coral-light:#FFE8E8;
-      --brown:      #5C3D2E;
-      --brown-light:#8B6F5E;
-      --gray-100:   #F9F9F9;
-      --gray-200:   #F0F0F0;
-      --gray-400:   #AAAAAA;
-      --gray-700:   #444444;
-      --white:      #FFFFFF;
-      --radius-sm:  12px;
-      --radius-md:  20px;
-      --radius-lg:  32px;
-      --shadow-sm:  0 2px 12px rgba(0,0,0,.06);
-      --shadow-md:  0 6px 28px rgba(0,0,0,.10);
-      --shadow-lg:  0 12px 48px rgba(0,0,0,.14);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Noto Sans KR', sans-serif;
-      background: var(--yellow-100);
-      color: var(--gray-700);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      font-family: 'Segoe UI', 'Apple SD Gothic Neo', sans-serif;
+      background: #fdf6f0;
+      color: #2d2d2d;
     }
 
-    /* ── 공통 컨테이너 ── */
-    .screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 560px;
-      padding: 24px 20px 60px;
-      animation: fadeUp .4s ease both;
-    }
-    .screen.active { display: flex; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── 로고 헤더 ── */
-    .logo-bar {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-bottom: 8px;
-      padding-top: 40px;
-    }
-    .logo-emoji { font-size: 3rem; margin-bottom: 4px; }
-    .logo-name {
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: 4px;
-      color: var(--brown-light);
-      text-transform: uppercase;
-    }
-
-    /* ══ START SCREEN ══ */
-    #startScreen {
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 50%, #ffd93d 100%);
+      padding: 60px 20px 80px;
       text-align: center;
-    }
-
-    .start-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 40px 32px;
-      box-shadow: var(--shadow-md);
-      margin-top: 24px;
-      width: 100%;
-    }
-
-    .start-illustration {
-      font-size: 4.5rem;
-      margin-bottom: 16px;
-      display: block;
-      line-height: 1;
-      filter: drop-shadow(0 4px 8px rgba(0,0,0,.08));
-    }
-
-    .start-title {
-      font-size: 1.55rem;
-      font-weight: 900;
-      color: var(--brown);
-      line-height: 1.35;
-      margin-bottom: 12px;
-    }
-    .start-title em {
-      font-style: normal;
-      color: var(--coral);
-    }
-
-    .start-desc {
-      font-size: .92rem;
-      color: var(--brown-light);
-      line-height: 1.7;
-      margin-bottom: 28px;
-    }
-
-    .tag-row {
-      display: flex;
-      gap: 8px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 32px;
-    }
-    .tag {
-      background: var(--yellow-200);
-      color: var(--brown);
-      font-size: .75rem;
-      font-weight: 700;
-      padding: 5px 14px;
-      border-radius: 999px;
-    }
-
-    .btn-start {
-      width: 100%;
-      padding: 18px;
-      border-radius: var(--radius-md);
-      border: none;
-      background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500));
-      color: var(--brown);
-      font-size: 1.05rem;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(255,193,7,.4);
-      transition: transform .15s, box-shadow .15s;
-      letter-spacing: .5px;
-    }
-    .btn-start:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(255,193,7,.5);
-    }
-    .btn-start:active { transform: translateY(0); }
-
-    .sub-note {
-      margin-top: 14px;
-      font-size: .78rem;
-      color: var(--gray-400);
-    }
-
-    /* ══ QUIZ SCREEN ══ */
-    #quizScreen { padding-top: 32px; }
-
-    .progress-wrap {
-      width: 100%;
-      margin-bottom: 28px;
-    }
-    .progress-info {
-      display: flex;
-      justify-content: space-between;
-      font-size: .8rem;
-      font-weight: 700;
-      color: var(--brown-light);
-      margin-bottom: 8px;
-    }
-    .progress-bar {
-      height: 8px;
-      background: var(--yellow-200);
-      border-radius: 999px;
+      position: relative;
       overflow: hidden;
     }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--yellow-400), var(--coral));
-      border-radius: 999px;
-      transition: width .5s cubic-bezier(.4,0,.2,1);
+    .hero::before {
+      content: '🍡 🍧 🍰 🧁 🍮';
+      font-size: 2rem;
+      letter-spacing: 8px;
+      display: block;
+      margin-bottom: 16px;
+      opacity: .6;
     }
-
-    .q-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 32px 28px;
-      width: 100%;
-      box-shadow: var(--shadow-md);
-      margin-bottom: 20px;
-    }
-
-    .q-badge {
-      display: inline-block;
-      background: var(--yellow-200);
-      color: var(--brown);
-      font-size: .72rem;
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
       font-weight: 900;
-      padding: 4px 12px;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,.2);
+    }
+    .hero p {
+      margin-top: 12px;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,.9);
+    }
+    .badge {
+      display: inline-block;
+      margin-top: 20px;
+      background: rgba(255,255,255,.25);
+      border: 2px solid rgba(255,255,255,.6);
+      color: #fff;
+      padding: 6px 18px;
       border-radius: 999px;
-      margin-bottom: 14px;
+      font-size: .85rem;
+      font-weight: 600;
+    }
+
+    /* ── Layout ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    section { padding: 60px 20px; }
+    section h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    section h2 span.dot {
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #ff6b6b;
+    }
+
+    /* ── Trend Timeline ── */
+    .timeline-section { background: #fff; }
+    .timeline {
+      position: relative;
+      padding-left: 40px;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 14px; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, #ff6b6b, #ffd93d);
+      border-radius: 3px;
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 36px;
+    }
+    .tl-dot {
+      position: absolute;
+      left: -33px;
+      top: 4px;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 2px #ff6b6b;
+    }
+    .tl-year {
+      font-size: .75rem;
+      font-weight: 700;
+      color: #ff6b6b;
+      text-transform: uppercase;
       letter-spacing: 1px;
     }
+    .tl-title { font-size: 1.1rem; font-weight: 700; margin: 4px 0; }
+    .tl-desc { font-size: .92rem; color: #666; line-height: 1.6; }
 
-    .q-emoji { font-size: 2.2rem; margin-bottom: 10px; display: block; }
-
-    .q-text {
-      font-size: 1.12rem;
-      font-weight: 800;
-      color: var(--brown);
-      line-height: 1.5;
+    /* ── Cards ── */
+    .cards-section { background: #fdf6f0; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
     }
-
-    .choices {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      width: 100%;
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,.07);
+      transition: transform .2s, box-shadow .2s;
     }
-
-    .choice-btn {
-      width: 100%;
-      background: var(--white);
-      border: 2px solid var(--yellow-200);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      text-align: left;
-      cursor: pointer;
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,.12); }
+    .card-header {
+      padding: 28px 24px 16px;
       display: flex;
       align-items: center;
       gap: 14px;
-      transition: border-color .15s, background .15s, transform .15s;
-      box-shadow: var(--shadow-sm);
     }
-    .choice-btn:hover {
-      border-color: var(--yellow-400);
-      background: var(--yellow-100);
-      transform: translateX(4px);
-    }
-    .choice-btn.selected {
-      border-color: var(--coral);
-      background: var(--coral-light);
-    }
-
-    .choice-letter {
-      flex-shrink: 0;
-      width: 32px; height: 32px;
-      background: var(--yellow-200);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: .8rem;
-      font-weight: 900;
-      color: var(--brown);
-      transition: background .15s;
-    }
-    .choice-btn:hover .choice-letter,
-    .choice-btn.selected .choice-letter {
-      background: var(--yellow-400);
-    }
-
-    .choice-text {
-      font-size: .93rem;
-      font-weight: 600;
-      color: var(--gray-700);
-      line-height: 1.45;
-    }
-
-    /* ══ RESULT SCREEN ══ */
-    #resultScreen { text-align: center; padding-top: 32px; }
-
-    .result-top {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 36px 28px 32px;
-      width: 100%;
-      box-shadow: var(--shadow-md);
-      margin-bottom: 16px;
-    }
-
-    .result-badge {
+    .card-emoji { font-size: 2.4rem; }
+    .card-meta h3 { font-size: 1.15rem; font-weight: 800; }
+    .card-meta .tag {
       display: inline-block;
-      background: var(--yellow-300);
-      color: var(--brown);
-      font-size: .72rem;
-      font-weight: 900;
-      padding: 5px 16px;
-      border-radius: 999px;
-      letter-spacing: 2px;
-      margin-bottom: 16px;
-    }
-
-    .result-emoji {
-      font-size: 5rem;
-      display: block;
-      margin-bottom: 12px;
-      filter: drop-shadow(0 6px 12px rgba(0,0,0,.1));
-      animation: bounce .6s ease both .2s;
-    }
-    @keyframes bounce {
-      0%   { transform: scale(.5); opacity: 0; }
-      70%  { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
-    }
-
-    .result-tag {
-      font-size: .78rem;
-      font-weight: 700;
-      color: var(--coral);
-      letter-spacing: 1px;
-      margin-bottom: 6px;
-    }
-
-    .result-name {
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: var(--brown);
-      line-height: 1.3;
-      margin-bottom: 16px;
-    }
-
-    .result-desc {
-      font-size: .92rem;
-      color: var(--brown-light);
-      line-height: 1.75;
-      text-align: left;
-      background: var(--yellow-100);
-      border-radius: var(--radius-sm);
-      padding: 16px 18px;
-    }
-
-    .reason-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 24px 24px;
-      width: 100%;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 16px;
-      text-align: left;
-    }
-    .reason-card h3 {
-      font-size: .85rem;
-      font-weight: 900;
-      color: var(--brown);
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .reason-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .reason-list li {
-      font-size: .88rem;
-      color: var(--gray-700);
-      padding: 10px 14px;
-      background: var(--gray-100);
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      line-height: 1.45;
-    }
-
-    .pair-card {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 22px 24px;
-      width: 100%;
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 24px;
-      text-align: left;
-    }
-    .pair-card h3 {
-      font-size: .85rem;
-      font-weight: 900;
-      color: var(--brown);
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-    }
-    .pair-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .pair-item {
-      background: var(--yellow-100);
-      border: 1.5px solid var(--yellow-300);
-      border-radius: var(--radius-sm);
-      padding: 10px 14px;
-      font-size: .85rem;
-      font-weight: 700;
-      color: var(--brown);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-retry {
-      width: 100%;
-      padding: 18px;
-      border-radius: var(--radius-md);
-      border: none;
-      background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500));
-      color: var(--brown);
-      font-size: 1rem;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 4px 16px rgba(255,193,7,.4);
-      transition: transform .15s, box-shadow .15s;
-      margin-bottom: 12px;
-    }
-    .btn-retry:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(255,193,7,.5);
-    }
-
-    .share-note {
-      font-size: .78rem;
-      color: var(--gray-400);
       margin-top: 4px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+    .tag-hot { background: #ffe0e0; color: #e53e3e; }
+    .tag-classic { background: #e0f0ff; color: #2b6cb0; }
+    .tag-new { background: #e0ffe8; color: #276749; }
+    .tag-global { background: #f0e0ff; color: #6b46c1; }
+    .card-body { padding: 0 24px 24px; }
+    .card-body p { font-size: .9rem; color: #555; line-height: 1.65; }
+
+    .meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: .78rem;
+      color: #888;
+      margin-top: 16px;
+      margin-bottom: 5px;
+    }
+    .meter {
+      height: 8px;
+      background: #f0f0f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .meter-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #ff6b6b, #ffd93d);
+      transition: width 1s ease;
     }
 
-    /* ── 스코어 바 ── */
-    .score-bars {
-      width: 100%;
-      margin-bottom: 16px;
+    /* ── Trend Bar Chart ── */
+    .chart-section { background: #fff; }
+    .bar-chart { display: flex; flex-direction: column; gap: 18px; }
+    .bar-row { display: flex; align-items: center; gap: 14px; }
+    .bar-name {
+      width: 130px;
+      font-size: .9rem;
+      font-weight: 600;
+      flex-shrink: 0;
+      text-align: right;
     }
-    .score-row {
+    .bar-track {
+      flex: 1;
+      height: 36px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
+      padding-left: 12px;
+      font-size: .8rem;
+      font-weight: 700;
+      color: #fff;
+      transition: width 1.2s ease;
     }
-    .score-label { width: 90px; font-size: .78rem; font-weight: 700; color: var(--brown-light); flex-shrink: 0; }
-    .score-track { flex: 1; height: 10px; background: var(--gray-200); border-radius: 999px; overflow: hidden; }
-    .score-fill { height: 100%; border-radius: 999px; transition: width 1s ease .3s; }
-    .score-val { width: 32px; font-size: .78rem; font-weight: 700; color: var(--brown); }
+    .bar-year { width: 50px; font-size: .78rem; color: #999; flex-shrink: 0; }
 
-    /* ── 하단 브랜드 ── */
-    .brand-footer {
-      margin-top: 8px;
-      font-size: .72rem;
-      color: var(--gray-400);
-      text-align: center;
-      padding-bottom: 20px;
+    /* ── Texture Trend ── */
+    .texture-section { background: #fdf6f0; }
+    .texture-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
     }
-    .brand-footer strong { color: var(--brown-light); }
+    .texture-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 16px;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
+    }
+    .texture-card .icon { font-size: 2rem; margin-bottom: 8px; }
+    .texture-card h4 { font-size: .95rem; font-weight: 700; margin-bottom: 4px; }
+    .texture-card p { font-size: .8rem; color: #777; }
+
+    /* ── Market Stats ── */
+    .stats-section { background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%); color: #fff; }
+    .stats-section h2 { color: #fff; }
+    .stats-section h2 .dot { background: #ffd93d; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .stat-box {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 16px;
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .stat-num { font-size: 2.2rem; font-weight: 900; color: #ffd93d; }
+    .stat-unit { font-size: 1rem; color: #ffd93d; }
+    .stat-label { font-size: .88rem; color: rgba(255,255,255,.75); margin-top: 6px; }
+
+    /* ── Generation Pref ── */
+    .gen-section { background: #fff; }
+    .gen-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .gen-card {
+      border-radius: 16px;
+      padding: 24px;
+      border: 2px solid transparent;
+    }
+    .gen-card.mz { background: #fff0f6; border-color: #f687b3; }
+    .gen-card.x  { background: #f0fff4; border-color: #68d391; }
+    .gen-card.senior { background: #ebf8ff; border-color: #63b3ed; }
+    .gen-label { font-size: .75rem; font-weight: 700; letter-spacing: 1px; margin-bottom: 10px; }
+    .gen-card.mz .gen-label { color: #d53f8c; }
+    .gen-card.x .gen-label  { color: #276749; }
+    .gen-card.senior .gen-label { color: #2b6cb0; }
+    .gen-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 8px; }
+    .gen-card ul { list-style: none; }
+    .gen-card ul li { font-size: .88rem; color: #555; padding: 4px 0; }
+    .gen-card ul li::before { content: '• '; color: #999; }
+
+    /* ── Footer ── */
+    footer {
+      background: #2d3748;
+      color: rgba(255,255,255,.5);
+      text-align: center;
+      padding: 24px;
+      font-size: .8rem;
+    }
+    footer a { color: rgba(255,255,255,.6); }
+
+    /* animate on scroll */
+    .animate { opacity: 0; transform: translateY(20px); transition: opacity .5s, transform .5s; }
+    .animate.visible { opacity: 1; transform: none; }
   </style>
 </head>
 <body>
 
-<!-- ══════════════ START ══════════════ -->
-<div class="screen active" id="startScreen">
-  <div class="logo-bar">
-    <span class="logo-emoji">🍰</span>
-    <span class="logo-name">황홀스레</span>
+<!-- ══ HERO ══ -->
+<div class="hero">
+  <div class="container">
+    <h1>🇰🇷 국내 인기 디저트 트렌드</h1>
+    <p>2025–2026년 대한민국을 뒤흔든 디저트 총정리</p>
+    <div class="badge">딥리서치 기반 시각화 보고서</div>
   </div>
-
-  <div class="start-card">
-    <span class="start-illustration">✨🍮✨</span>
-    <h1 class="start-title">
-      나에게 꼭 맞는<br>
-      <em>디저트</em>는 뭘까?
-    </h1>
-    <p class="start-desc">
-      5가지 질문에 솔직하게 답하면<br>
-      당신의 성격에 딱 맞는 황홀스레 디저트를<br>
-      추천해드려요 🌟
-    </p>
-    <div class="tag-row">
-      <span class="tag">⏱ 1분 완성</span>
-      <span class="tag">✅ 5문항</span>
-      <span class="tag">🎁 3가지 결과</span>
-    </div>
-    <button class="btn-start" onclick="startQuiz()">테스트 시작하기 →</button>
-    <p class="sub-note">정답은 없어요, 솔직한 내 모습이 가장 정확해요 💛</p>
-  </div>
-
-  <div class="brand-footer">ⓒ 황홀스레 디저트 카페</div>
 </div>
 
-<!-- ══════════════ QUIZ ══════════════ -->
-<div class="screen" id="quizScreen">
-  <div class="logo-bar" style="padding-top:24px;">
-    <span class="logo-name" style="font-size:.65rem;">황홀스레</span>
-  </div>
+<!-- ══ TIMELINE ══ -->
+<section class="timeline-section">
+  <div class="container">
+    <h2><span class="dot"></span> 한국 디저트 유행 변천사</h2>
+    <div class="timeline">
 
-  <div class="progress-wrap">
-    <div class="progress-info">
-      <span id="progressLabel">질문 1 / 5</span>
-      <span id="progressPct">20%</span>
+      <div class="tl-item animate">
+        <div class="tl-dot" style="background:#a0aec0;"></div>
+        <div class="tl-year">2020–2021</div>
+        <div class="tl-title">달고나 커피 & 달고나 뽑기</div>
+        <div class="tl-desc">코로나 시기 집콕 문화와 맞물려 달고나 커피가 전 세계적으로 유행. 넷플릭스 '오징어게임' 이후 달고나 뽑기도 K-푸드로 주목받음.</div>
+      </div>
+
+      <div class="tl-item animate">
+        <div class="tl-dot" style="background:#f6ad55;"></div>
+        <div class="tl-year">2022</div>
+        <div class="tl-title">약과 & '할매니얼' 트렌드</div>
+        <div class="tl-desc">MZ 세대가 전통 간식 약과를 재발견. '할매니얼(할매+밀레니얼)'이라는 신조어가 등장하며 약과 쿠키, 약과 아이스크림 등 퓨전 상품이 급증.</div>
+      </div>
+
+      <div class="tl-item animate">
+        <div class="tl-dot" style="background:#fc8181;"></div>
+        <div class="tl-year">2023</div>
+        <div class="tl-title">탕후루 대유행</div>
+        <div class="tl-desc">딸기·샤인머스캣 등 과일에 설탕 코팅. 탕후루 전문점이 50개 → 300개로 6개월만에 6배 성장. 틱톡·유튜브 ASMR 먹방이 확산 견인.</div>
+      </div>
+
+      <div class="tl-item animate">
+        <div class="tl-dot" style="background:#68d391;"></div>
+        <div class="tl-year">2024</div>
+        <div class="tl-title">소금빵 & 베이글 & 두바이 초콜릿</div>
+        <div class="tl-desc">베이커리 열풍이 정점. 두바이 초콜릿(피스타치오+카타이피)이 SNS 타고 국내 상륙, 연말 품절 대란 발생.</div>
+      </div>
+
+      <div class="tl-item animate">
+        <div class="tl-dot" style="background:#63b3ed;"></div>
+        <div class="tl-year">2025</div>
+        <div class="tl-title">두쫀쿠 & 요아정 & 크림 단팥 소금빵</div>
+        <div class="tl-desc">두바이식 쫀쫀한 쿠키(두쫀쿠) 전국 확산. 요아정(요거트 아이스크림) 놀이 문화화. 크림 단팥 소금빵으로 '짭단부' 조합 인기.</div>
+      </div>
+
+      <div class="tl-item animate">
+        <div class="tl-dot" style="background:#ff6b6b;"></div>
+        <div class="tl-year">2026 현재</div>
+        <div class="tl-title">버터떡 & 얼먹젤리 & 한입 케이크</div>
+        <div class="tl-desc">버터떡(상하이 기원, 전통 떡+서양 버터풍미)이 상반기 최고 키워드. 얼먹젤리 GS25 매출 +1,786%. 한입 미니 케이크가 성수동·홍대 장악.</div>
+      </div>
+
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progressFill" style="width:20%"></div>
+  </div>
+</section>
+
+<!-- ══ CARDS ══ -->
+<section class="cards-section">
+  <div class="container">
+    <h2><span class="dot"></span> 2025–2026 TOP 디저트</h2>
+    <div class="cards">
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🧈</div>
+          <div class="card-meta">
+            <h3>버터떡</h3>
+            <span class="tag tag-hot">🔥 2026 최고 핫</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>쫄깃한 전통 떡에 서양식 버터 풍미를 더한 퓨전 디저트. 상하이에서 시작해 2026년 상반기 한국 전역을 강타. '버터떡'은 전통과 서양의 이상적 결합으로 평가.</p>
+          <div class="meter-label"><span>인기 지수</span><span>98/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:98%"></div></div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🍡</div>
+          <div class="card-meta">
+            <h3>두바이 쫀쫀쿠키 (두쫀쿠)</h3>
+            <span class="tag tag-hot">🔥 SNS 폭발</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>마시멜로·피스타치오·카타이피로 속을 채운 초콜릿 쿠키. 두바이 초콜릿의 한국식 진화형. 흑임자 크림·인절미 가루 버전 등 K-퓨전 변형도 성행.</p>
+          <div class="meter-label"><span>인기 지수</span><span>95/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:95%"></div></div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🍦</div>
+          <div class="card-meta">
+            <h3>요아정 (요거트 아이스크림)</h3>
+            <span class="tag tag-new">✨ 문화 현상</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>수십 가지 토핑을 직접 조합하는 요거트 아이스크림. 단순 디저트를 넘어 '놀이 문화'로 자리잡음. 성수동·홍대 매장 중심으로 전국 확산.</p>
+          <div class="meter-label"><span>인기 지수</span><span>90/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:90%"></div></div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🧊</div>
+          <div class="card-meta">
+            <h3>빙수</h3>
+            <span class="tag tag-classic">🏆 국민 디저트</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>여름 시즌 구글 트렌드 최고점(93~96점) 기록. 2026년 성수동·홍대에서는 '6종 요거트 빙수'가 신트렌드. 망고·딸기에서 시즌 한정 프리미엄 빙수로 진화 중.</p>
+          <div class="meter-label"><span>인기 지수</span><span>88/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:88%"></div></div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🍯</div>
+          <div class="card-meta">
+            <h3>약과</h3>
+            <span class="tag tag-classic">🏆 전통의 귀환</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>2022년부터 MZ 세대가 이끈 전통 간식 붐의 주역. 약과 쿠키·약과 아이스크림·약과 케이크 등 퓨전 상품으로 계속 변화. 2026년도 꾸준한 인기 유지.</p>
+          <div class="meter-label"><span>인기 지수</span><span>82/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:82%"></div></div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🍬</div>
+          <div class="card-meta">
+            <h3>탕후루</h3>
+            <span class="tag tag-global">🌏 글로벌 확산</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>2023년 폭풍 성장 후 다소 정착 국면. 그러나 해외에서는 K-디저트로 여전히 높은 인기. 과일 탕후루에서 치즈·젤리 등 비전통 재료 버전으로 진화.</p>
+          <div class="meter-label"><span>인기 지수</span><span>72/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:72%"></div></div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🎂</div>
+          <div class="card-meta">
+            <h3>한입 미니 케이크</h3>
+            <span class="tag tag-new">✨ 2026 신흥강자</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>정통 멀티레이어 케이크를 한 입 크기로 축소. 성수동·홍대 파티시에 문화와 결합해 급성장. 포토제닉한 비주얼로 SNS 업로드율 최상위권.</p>
+          <div class="meter-label"><span>인기 지수</span><span>80/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:80%"></div></div>
+        </div>
+      </div>
+
+      <div class="card animate">
+        <div class="card-header">
+          <div class="card-emoji">🍮</div>
+          <div class="card-meta">
+            <h3>얼먹젤리</h3>
+            <span class="tag tag-hot">🔥 급부상</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <p>냉동 후 먹는 젤리. GS25 하리보 매출 +1,786% 기록. 여름 시즌 두쫀쿠의 뒤를 잇는 차기 유행으로 예측. 편의점 중심으로 빠르게 확산 중.</p>
+          <div class="meter-label"><span>인기 지수</span><span>77/100</span></div>
+          <div class="meter"><div class="meter-fill" style="width:77%"></div></div>
+        </div>
+      </div>
+
     </div>
   </div>
+</section>
 
-  <div class="q-card">
-    <span class="q-badge" id="qBadge">Q 01</span>
-    <span class="q-emoji" id="qEmoji">☕</span>
-    <p class="q-text" id="qText">질문이 여기에 표시됩니다.</p>
+<!-- ══ BAR CHART ══ -->
+<section class="chart-section">
+  <div class="container">
+    <h2><span class="dot"></span> 디저트별 인기 순위 (2026 기준)</h2>
+    <div class="bar-chart" id="barChart">
+      <!-- JS로 렌더링 -->
+    </div>
   </div>
+</section>
 
-  <div class="choices" id="choicesWrap"></div>
-</div>
-
-<!-- ══════════════ RESULT ══════════════ -->
-<div class="screen" id="resultScreen">
-  <div class="logo-bar" style="padding-top:24px;">
-    <span class="logo-name" style="font-size:.65rem;">황홀스레</span>
-  </div>
-
-  <div class="result-top">
-    <span class="result-badge">✨ 나의 디저트 유형</span>
-    <span class="result-emoji" id="resultEmoji">🍓</span>
-    <p class="result-tag" id="resultTag">달콤 로맨틱 타입</p>
-    <h2 class="result-name" id="resultName">딸기 생크림 케이크</h2>
-    <div class="trend-info" id="trendInfo" style="display:flex;align-items:flex-start;gap:10px;background:var(--yellow-100);border-radius:12px;padding:12px 14px;margin:14px 0 10px;text-align:left;">
-      <span style="font-size:1.2rem;flex-shrink:0;">📈</span>
-      <div>
-        <span id="trendBadge" style="font-size:.72rem;font-weight:900;color:var(--coral);display:block;margin-bottom:4px;"></span>
-        <span id="trendDesc" style="font-size:.82rem;color:var(--brown-light);line-height:1.6;"></span>
+<!-- ══ TEXTURE ══ -->
+<section class="texture-section">
+  <div class="container">
+    <h2><span class="dot"></span> 2026 핵심 식감 트렌드</h2>
+    <div class="texture-grid">
+      <div class="texture-card animate">
+        <div class="icon">🫨</div>
+        <h4>쫄깃 (Chewy)</h4>
+        <p>꾸덕꾸덕한 쫄깃함. 한국인의 영원한 식감 선호.</p>
+      </div>
+      <div class="texture-card animate">
+        <div class="icon">💥</div>
+        <h4>바삭 (Crispy)</h4>
+        <p>한 입에 두 가지 자극. 바삭+쫄깃 조합이 최강.</p>
+      </div>
+      <div class="texture-card animate">
+        <div class="icon">🌊</div>
+        <h4>크리미 (Creamy)</h4>
+        <p>진하고 부드러운 크림감. 단팥+크림 조합 급부상.</p>
+      </div>
+      <div class="texture-card animate">
+        <div class="icon">❄️</div>
+        <h4>시원 (Cool)</h4>
+        <p>여름철 빙수·요아정·얼먹젤리 핵심 키워드.</p>
+      </div>
+      <div class="texture-card animate">
+        <div class="icon">🧂</div>
+        <h4>짭단부 조합</h4>
+        <p>짭짤+달달+부드러움. 소금빵 계열 인기 핵심.</p>
+      </div>
+      <div class="texture-card animate">
+        <div class="icon">✨</div>
+        <h4>깔끔한 단맛</h4>
+        <p>폭발적 단맛 → 절제된 단맛. 2030세대 취향 변화.</p>
       </div>
     </div>
-    <p class="result-desc" id="resultDesc">설명이 여기에 들어갑니다.</p>
   </div>
+</section>
 
-  <!-- 점수 분포 -->
-  <div class="score-bars" id="scoreBarsWrap" style="background:#fff;border-radius:20px;padding:20px 24px;box-shadow:var(--shadow-sm);">
-    <h3 style="font-size:.85rem;font-weight:900;color:var(--brown);margin-bottom:14px;">📊 나의 디저트 성향 분포</h3>
-    <div class="score-row">
-      <div class="score-label">🧈 버터떡</div>
-      <div class="score-track"><div class="score-fill" id="barA" style="width:0%;background:linear-gradient(90deg,#f6ad55,#ed8936);"></div></div>
-      <div class="score-val" id="valA">0%</div>
+<!-- ══ MARKET STATS ══ -->
+<section class="stats-section">
+  <div class="container">
+    <h2><span class="dot"></span> 한국 디저트 시장 주요 지표</h2>
+    <div class="stats-grid">
+      <div class="stat-box animate">
+        <div class="stat-num">+18<span class="stat-unit">%</span></div>
+        <div class="stat-label">디저트 카페 시장<br>2년간 성장률</div>
+      </div>
+      <div class="stat-box animate">
+        <div class="stat-num">₩35,000</div>
+        <div class="stat-label">여행객 1인당<br>하루 디저트 지출</div>
+      </div>
+      <div class="stat-box animate">
+        <div class="stat-num">+1,786<span class="stat-unit">%</span></div>
+        <div class="stat-label">얼먹젤리<br>GS25 매출 증가율</div>
+      </div>
+      <div class="stat-box animate">
+        <div class="stat-num">6배</div>
+        <div class="stat-label">탕후루 전문점 수<br>(2023년 6개월간)</div>
+      </div>
     </div>
-    <div class="score-row">
-      <div class="score-label">🍪 두쫀쿠</div>
-      <div class="score-track"><div class="score-fill" id="barB" style="width:0%;background:linear-gradient(90deg,#68d391,#38a169);"></div></div>
-      <div class="score-val" id="valB">0%</div>
+  </div>
+</section>
+
+<!-- ══ GENERATION ══ -->
+<section class="gen-section">
+  <div class="container">
+    <h2><span class="dot"></span> 세대별 디저트 선호</h2>
+    <div class="gen-grid">
+      <div class="gen-card mz animate">
+        <div class="gen-label">MZ 세대 (1981–2010)</div>
+        <h3>SNS·비주얼 중심</h3>
+        <ul>
+          <li>두쫀쿠 / 버터떡</li>
+          <li>한입 미니 케이크</li>
+          <li>요아정 (커스텀 토핑)</li>
+          <li>얼먹젤리</li>
+          <li>약과 퓨전 시리즈</li>
+        </ul>
+      </div>
+      <div class="gen-card x animate">
+        <div class="gen-label">X 세대 (1965–1980)</div>
+        <h3>맛·품질 중심</h3>
+        <ul>
+          <li>프리미엄 빙수</li>
+          <li>전통 약과·인절미</li>
+          <li>수제 베이커리</li>
+          <li>크림 단팥 소금빵</li>
+          <li>시즌 한정 케이크</li>
+        </ul>
+      </div>
+      <div class="gen-card senior animate">
+        <div class="gen-label">시니어 (1964년 이전)</div>
+        <h3>건강·전통 중심</h3>
+        <ul>
+          <li>약과·한과</li>
+          <li>인절미·떡</li>
+          <li>호두과자</li>
+          <li>단팥빵</li>
+          <li>식혜·수정과</li>
+        </ul>
+      </div>
     </div>
-    <div class="score-row">
-      <div class="score-label">🍦 요아정</div>
-      <div class="score-track"><div class="score-fill" id="barC" style="width:0%;background:linear-gradient(90deg,#63b3ed,#3182ce);"></div></div>
-      <div class="score-val" id="valC">0%</div>
-    </div>
   </div>
+</section>
 
-  <div class="reason-card" id="reasonCard">
-    <h3>💛 이 결과가 나온 이유</h3>
-    <ul class="reason-list" id="reasonList"></ul>
-  </div>
-
-  <div class="pair-card" id="pairCard">
-    <h3>☕ 황홀스레 추천 페어링</h3>
-    <div class="pair-row" id="pairRow"></div>
-  </div>
-
-  <button class="btn-retry" onclick="retryQuiz()">🔄 다시 테스트하기</button>
-  <p class="share-note">결과를 캡처해서 친구에게 공유해보세요 📸</p>
-
-  <div class="brand-footer">ⓒ <strong>황홀스레</strong> 디저트 카페</div>
-</div>
+<!-- ══ FOOTER ══ -->
+<footer>
+  <p>데이터 출처: 썸트렌드, 한국경제, Korea Herald, InvestKOREA, TasteAtlas, HaniSeoul 등 | 리서치 기준: 2026년 6월</p>
+  <p style="margin-top:6px;">이 보고서는 Claude AI의 딥리서치를 기반으로 제작되었습니다.</p>
+</footer>
 
 <script>
-/* ══════════════════════════════════════════
-   데이터 설계 (2025-2026 국내 인기 디저트 리서치 기반)
-   점수 배열: [버터떡(A), 두쫀쿠(B), 요아정(C)]
+  /* ── Bar Chart ── */
+  const data = [
+    { name: '버터떡',       score: 98, color: '#f6ad55', year: '2026' },
+    { name: '두쫀쿠',       score: 95, color: '#fc8181', year: '2025–26' },
+    { name: '요아정',       score: 90, color: '#68d391', year: '2025–26' },
+    { name: '빙수',         score: 88, color: '#63b3ed', year: '연중' },
+    { name: '약과 퓨전',    score: 82, color: '#d6bcfa', year: '2022–' },
+    { name: '한입 케이크',  score: 80, color: '#fbd38d', year: '2026' },
+    { name: '얼먹젤리',     score: 77, color: '#f687b3', year: '2026' },
+    { name: '탕후루',       score: 72, color: '#a0aec0', year: '2023–' },
+  ];
 
-   결과 A (버터떡)  : 따뜻함·감성·전통과 현대의 조화를 아는 사람
-                      2026 인기 1위 (인기지수 98점), 상하이발 K-디저트
-   결과 B (두쫀쿠)  : 트렌드 감각·비주얼·SNS 감성의 소유자
-                      2025–26 SNS 폭발, 피스타치오+카타이피 K-퓨전
-   결과 C (요아정)  : 사교적·자유로운·나만의 스타일을 즐기는 사람
-                      요거트 아이스크림을 놀이문화로 만든 2025 문화 현상
-══════════════════════════════════════════ */
-
-const questions = [
-  {
-    emoji: "🌸",
-    badge: "Q 01",
-    text: "주말 오후, 완벽한 나만의 시간은?",
-    choices: [
-      { text: "좋아하는 책 한 권과 따뜻한 음료, 조용한 카페 한 켠 🪟", scores: [2, 0, 0] },
-      { text: "새로 생긴 핫플 카페, 일단 사진부터 📸",                  scores: [0, 2, 0] },
-      { text: "친구들과 토핑 고르며 내 취향 조합 만들기 🎨",            scores: [0, 0, 2] },
-      { text: "집에서 나만의 감성 플레이리스트 들으며 멍 때리기 🎧",    scores: [1, 1, 0] },
-    ]
-  },
-  {
-    emoji: "🛍️",
-    badge: "Q 02",
-    text: "디저트 카페를 고를 때 나의 기준은?",
-    choices: [
-      { text: "분위기가 따뜻하고 포근한 곳이 최고 🕯️",                  scores: [2, 0, 0] },
-      { text: "SNS에서 핫한 곳, 비주얼이 예뻐야지 ✨",                  scores: [0, 2, 0] },
-      { text: "친구들이랑 오래 앉아 수다 떨 수 있는 곳 💬",              scores: [0, 0, 2] },
-      { text: "남들이 잘 모르는 숨은 맛집이면 더 좋아 🗺️",              scores: [1, 1, 0] },
-    ]
-  },
-  {
-    emoji: "😤",
-    badge: "Q 03",
-    text: "스트레스를 받았을 때 나는?",
-    choices: [
-      { text: "따뜻하고 달달한 것 먹으며 혼자 감정 정리 🍵",            scores: [2, 0, 0] },
-      { text: "예쁜 디저트 찍어서 올리며 기분 전환 📱",                  scores: [0, 2, 0] },
-      { text: "친한 친구에게 전화해서 수다 떨고 에너지 충전 📞",        scores: [0, 0, 2] },
-      { text: "새로운 카페 탐방으로 기분 리셋 🚶",                      scores: [0, 1, 1] },
-    ]
-  },
-  {
-    emoji: "📸",
-    badge: "Q 04",
-    text: "내 SNS 피드를 한마디로 표현하면?",
-    choices: [
-      { text: "따뜻한 톤, 일상의 소소한 감성 사진 위주 🌷",              scores: [2, 0, 0] },
-      { text: "트렌디한 핫플·신메뉴·예쁜 디저트 가득 🍰",               scores: [0, 2, 0] },
-      { text: "친구 태그, 같이 먹은 것 공유, 활발한 소통 📣",            scores: [0, 0, 2] },
-      { text: "거의 안 올림, 구경 전문 관찰자 🔍",                      scores: [1, 1, 0] },
-    ]
-  },
-  {
-    emoji: "🍴",
-    badge: "Q 05",
-    text: "디저트를 고를 때 가장 중요한 건?",
-    choices: [
-      { text: "쫄깃하고 따뜻한 식감, 먹으면 마음이 편안해지는 것 🧈",    scores: [2, 0, 0] },
-      { text: "비주얼이 터지는 것, 사진 찍었을 때 완벽해야 해 🤳",       scores: [0, 2, 0] },
-      { text: "내가 직접 커스텀할 수 있는 것, 나만의 조합이 최고 🎨",    scores: [0, 0, 2] },
-      { text: "계절 한정·신메뉴, 지금 이 순간만 먹을 수 있는 것 ⏳",     scores: [0, 1, 1] },
-    ]
-  }
-];
-
-const results = {
-  A: {
-    emoji: "🧈",
-    tag: "🤍 따뜻한 감성 타입",
-    name: "버터떡",
-    trendBadge: "📊 2026 인기 1위 · 인기지수 98점",
-    trendDesc: "전통 떡의 쫄깃함 + 서양 버터의 풍미가 만난 2026년 상반기 최고 핫 디저트. 상하이에서 건너와 한국 전역을 강타했어요.",
-    desc: "당신은 새로운 것도 좋아하지만, 결국 따뜻하고 포근한 것으로 돌아오는 사람이에요. 전통의 쫄깃함에 서양의 버터 풍미를 더한 버터떡처럼, 익숙함과 새로움의 절묘한 균형을 아는 감성파입니다. 화려하지 않아도 진심이 느껴지는 것에 감동받는 당신, 주변 사람들이 곁에 있고 싶어하는 사람이에요.",
-    reasons: [
-      "🕯️ 따뜻하고 포근한 분위기를 가장 중요하게 여기는 당신",
-      "🍵 달달한 것으로 혼자 차분히 감정을 정리하는 섬세함",
-      "🌷 소소하지만 감성적인 일상을 사랑하는 취향",
-      "🧈 쫄깃하고 따뜻한 식감에서 편안함을 찾는 성향",
-    ],
-    pairs: [
-      { icon: "🧈", label: "버터떡" },
-      { icon: "🫖", label: "얼그레이 밀크티" },
-      { icon: "🍯", label: "약과 세트" },
-    ],
-  },
-  B: {
-    emoji: "🍪",
-    tag: "✨ 트렌드 감성 타입",
-    name: "두바이 쫀쫀쿠키 (두쫀쿠)",
-    trendBadge: "📊 SNS 폭발 · 인기지수 95점",
-    trendDesc: "마시멜로·피스타치오·카타이피가 어우러진 두바이 초콜릿의 한국식 진화형. 흑임자·인절미 크림 등 K-퓨전 버전도 인기 급상승 중.",
-    desc: "당신은 트렌드 감각이 남다른 사람이에요! 새로운 것을 누구보다 빠르게 캐치하고, 그걸 예쁘게 표현하는 능력도 탁월하죠. 두쫀쿠처럼 겉보기엔 화려하지만 먹어보면 다양한 맛이 조화롭게 터지는 것처럼, 당신도 첫인상이 강렬하면서도 곁에 있을수록 매력이 더 느껴지는 사람이에요.",
-    reasons: [
-      "📸 핫플 카페 발굴과 비주얼 디저트 사진이 일상인 당신",
-      "✨ SNS 올렸을 때 완벽한 비주얼을 중요하게 생각하는 감각",
-      "🍰 트렌디한 핫플·신메뉴로 가득한 피드의 소유자",
-      "🤳 지금 이 순간 유행하는 것에 빠르게 반응하는 센스",
-    ],
-    pairs: [
-      { icon: "🍪", label: "두쫀쿠" },
-      { icon: "🍵", label: "피스타치오 라떼" },
-      { icon: "🎂", label: "한입 미니 케이크" },
-    ],
-  },
-  C: {
-    emoji: "🍦",
-    tag: "🌈 자유로운 소울 타입",
-    name: "요아정 (요거트 아이스크림)",
-    trendBadge: "📊 2025 문화 현상 · 인기지수 90점",
-    trendDesc: "수십 가지 토핑을 직접 조합하는 요거트 아이스크림. 단순한 디저트를 넘어 '놀이 문화'로 자리잡은 2025년 최고의 문화 현상.",
-    desc: "당신은 어디서나 자신만의 스타일을 만들어내는 자유로운 영혼이에요! 정해진 틀 없이 내가 원하는 대로 커스텀하는 것을 즐기고, 함께할 때 더 빛나는 사교적인 사람이죠. 요아정처럼 베이스는 같아도 토핑 조합에 따라 완전히 달라지는, 예측 불가능한 매력의 소유자예요.",
-    reasons: [
-      "🎨 토핑을 직접 고르며 나만의 조합을 완성하는 커스텀 감각",
-      "💬 친구들과 오래 앉아 수다 떠는 것을 가장 좋아하는 사교성",
-      "📣 함께 먹은 것을 공유하고 소통하는 활발한 에너지",
-      "🚶 기분 전환이 필요하면 새로운 카페 탐방으로 리셋하는 행동파",
-    ],
-    pairs: [
-      { icon: "🍦", label: "요아정 (커스텀 요거트)" },
-      { icon: "🧊", label: "망고 빙수" },
-      { icon: "🍹", label: "생과일 에이드" },
-    ],
-  }
-};
-
-/* ══ 상태 ══ */
-let currentQ = 0;
-let scores = [0, 0, 0]; // [A케이크, B흑임자, C망고]
-
-/* ══ 시작 ══ */
-function startQuiz() {
-  currentQ = 0;
-  scores = [0, 0, 0];
-  showScreen('quizScreen');
-  renderQuestion();
-}
-
-function retryQuiz() {
-  showScreen('startScreen');
-}
-
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById(id);
-  el.classList.add('active');
-  // 애니메이션 재실행
-  el.style.animation = 'none';
-  el.offsetHeight;
-  el.style.animation = '';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-/* ══ 질문 렌더링 ══ */
-function renderQuestion() {
-  const q = questions[currentQ];
-  const pct = Math.round(((currentQ + 1) / questions.length) * 100);
-
-  document.getElementById('progressLabel').textContent = `질문 ${currentQ + 1} / ${questions.length}`;
-  document.getElementById('progressPct').textContent = `${pct}%`;
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('qBadge').textContent = q.badge;
-  document.getElementById('qEmoji').textContent = q.emoji;
-  document.getElementById('qText').textContent = q.text;
-
-  const letters = ['A', 'B', 'C', 'D'];
-  const wrap = document.getElementById('choicesWrap');
-  wrap.innerHTML = '';
-
-  q.choices.forEach((c, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'choice-btn';
-    btn.innerHTML = `
-      <div class="choice-letter">${letters[i]}</div>
-      <div class="choice-text">${c.text}</div>
-    `;
-    btn.onclick = () => selectChoice(i, btn);
-    wrap.appendChild(btn);
+  const chart = document.getElementById('barChart');
+  data.forEach(d => {
+    chart.innerHTML += `
+      <div class="bar-row animate">
+        <div class="bar-name">${d.name}</div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:0%;background:${d.color};" data-width="${d.score}">
+            ${d.score}점
+          </div>
+        </div>
+        <div class="bar-year">${d.year}</div>
+      </div>`;
   });
-}
 
-/* ══ 선택 처리 ══ */
-function selectChoice(idx, btn) {
-  // 중복 클릭 방지
-  document.querySelectorAll('.choice-btn').forEach(b => b.onclick = null);
+  /* ── Scroll Animation ── */
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // bar fill animation
+        const fill = e.target.querySelector?.('.bar-fill');
+        if (fill) {
+          const w = fill.dataset.width;
+          setTimeout(() => { fill.style.width = w + '%'; }, 100);
+        }
+      }
+    });
+  }, { threshold: 0.15 });
 
-  btn.classList.add('selected');
+  document.querySelectorAll('.animate').forEach(el => observer.observe(el));
 
-  const chosen = questions[currentQ].choices[idx].scores;
-  scores[0] += chosen[0];
-  scores[1] += chosen[1];
-  scores[2] += chosen[2];
-
+  /* ── meter fill on load ── */
   setTimeout(() => {
-    currentQ++;
-    if (currentQ < questions.length) {
-      renderQuestion();
-    } else {
-      showResult();
-    }
-  }, 420);
-}
-
-/* ══ 결과 계산 및 표시 ══ */
-function showResult() {
-  const max = Math.max(...scores);
-  let key = 'A';
-  if (scores[1] === max && scores[1] >= scores[0]) key = 'B';
-  if (scores[2] === max && scores[2] >= scores[0] && scores[2] >= scores[1]) key = 'C';
-  // 동점 처리: A > B > C 우선
-  if (scores[0] === scores[1] && scores[0] === scores[2]) key = 'A';
-
-  const r = results[key];
-  document.getElementById('resultEmoji').textContent = r.emoji;
-  document.getElementById('resultTag').textContent = r.tag;
-  document.getElementById('resultName').textContent = r.name;
-  document.getElementById('trendBadge').textContent = r.trendBadge;
-  document.getElementById('trendDesc').textContent = r.trendDesc;
-  document.getElementById('resultDesc').textContent = r.desc;
-
-  // 이유 목록
-  const ul = document.getElementById('reasonList');
-  ul.innerHTML = '';
-  r.reasons.forEach(reason => {
-    const li = document.createElement('li');
-    li.textContent = reason;
-    ul.appendChild(li);
-  });
-
-  // 페어링
-  const pr = document.getElementById('pairRow');
-  pr.innerHTML = '';
-  r.pairs.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'pair-item';
-    div.innerHTML = `<span>${p.icon}</span>${p.label}`;
-    pr.appendChild(div);
-  });
-
-  // 점수 바 (퍼센트)
-  const total = scores.reduce((a, b) => a + b, 0) || 1;
-  const pctA = Math.round((scores[0] / total) * 100);
-  const pctB = Math.round((scores[1] / total) * 100);
-  const pctC = 100 - pctA - pctB;
-
-  showScreen('resultScreen');
-
-  setTimeout(() => {
-    document.getElementById('barA').style.width = pctA + '%';
-    document.getElementById('barB').style.width = pctB + '%';
-    document.getElementById('barC').style.width = pctC + '%';
-    document.getElementById('valA').textContent = pctA + '%';
-    document.getElementById('valB').textContent = pctB + '%';
-    document.getElementById('valC').textContent = pctC + '%';
-  }, 300);
-}
+    document.querySelectorAll('.meter-fill').forEach(el => {
+      const w = el.style.width;
+      el.style.width = '0%';
+      setTimeout(() => { el.style.width = w; }, 300);
+    });
+  }, 500);
 </script>
 </body>
 </html>
