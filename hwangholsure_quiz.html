@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>황홀스레 | 나에게 딱 맞는 디저트는?</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+    :root {
+      --yellow-100: #FFFBEA;
+      --yellow-200: #FFF3B0;
+      --yellow-300: #FFE566;
+      --yellow-400: #FFD93D;
+      --yellow-500: #FFC107;
+      --coral:      #FF6B6B;
+      --coral-light:#FFE8E8;
+      --brown:      #5C3D2E;
+      --brown-light:#8B6F5E;
+      --gray-100:   #F9F9F9;
+      --gray-200:   #F0F0F0;
+      --gray-400:   #AAAAAA;
+      --gray-700:   #444444;
+      --white:      #FFFFFF;
+      --radius-sm:  12px;
+      --radius-md:  20px;
+      --radius-lg:  32px;
+      --shadow-sm:  0 2px 12px rgba(0,0,0,.06);
+      --shadow-md:  0 6px 28px rgba(0,0,0,.10);
+      --shadow-lg:  0 12px 48px rgba(0,0,0,.14);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: var(--yellow-100);
+      color: var(--gray-700);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── 공통 컨테이너 ── */
+    .screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 560px;
+      padding: 24px 20px 60px;
+      animation: fadeUp .4s ease both;
+    }
+    .screen.active { display: flex; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── 로고 헤더 ── */
+    .logo-bar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 8px;
+      padding-top: 40px;
+    }
+    .logo-emoji { font-size: 3rem; margin-bottom: 4px; }
+    .logo-name {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--brown-light);
+      text-transform: uppercase;
+    }
+
+    /* ══ START SCREEN ══ */
+    #startScreen {
+      text-align: center;
+    }
+
+    .start-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      box-shadow: var(--shadow-md);
+      margin-top: 24px;
+      width: 100%;
+    }
+
+    .start-illustration {
+      font-size: 4.5rem;
+      margin-bottom: 16px;
+      display: block;
+      line-height: 1;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,.08));
+    }
+
+    .start-title {
+      font-size: 1.55rem;
+      font-weight: 900;
+      color: var(--brown);
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+    .start-title em {
+      font-style: normal;
+      color: var(--coral);
+    }
+
+    .start-desc {
+      font-size: .92rem;
+      color: var(--brown-light);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .tag {
+      background: var(--yellow-200);
+      color: var(--brown);
+      font-size: .75rem;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 999px;
+    }
+
+    .btn-start {
+      width: 100%;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500));
+      color: var(--brown);
+      font-size: 1.05rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255,193,7,.4);
+      transition: transform .15s, box-shadow .15s;
+      letter-spacing: .5px;
+    }
+    .btn-start:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255,193,7,.5);
+    }
+    .btn-start:active { transform: translateY(0); }
+
+    .sub-note {
+      margin-top: 14px;
+      font-size: .78rem;
+      color: var(--gray-400);
+    }
+
+    /* ══ QUIZ SCREEN ══ */
+    #quizScreen { padding-top: 32px; }
+
+    .progress-wrap {
+      width: 100%;
+      margin-bottom: 28px;
+    }
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--brown-light);
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      height: 8px;
+      background: var(--yellow-200);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--yellow-400), var(--coral));
+      border-radius: 999px;
+      transition: width .5s cubic-bezier(.4,0,.2,1);
+    }
+
+    .q-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      width: 100%;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 20px;
+    }
+
+    .q-badge {
+      display: inline-block;
+      background: var(--yellow-200);
+      color: var(--brown);
+      font-size: .72rem;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      letter-spacing: 1px;
+    }
+
+    .q-emoji { font-size: 2.2rem; margin-bottom: 10px; display: block; }
+
+    .q-text {
+      font-size: 1.12rem;
+      font-weight: 800;
+      color: var(--brown);
+      line-height: 1.5;
+    }
+
+    .choices {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .choice-btn {
+      width: 100%;
+      background: var(--white);
+      border: 2px solid var(--yellow-200);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color .15s, background .15s, transform .15s;
+      box-shadow: var(--shadow-sm);
+    }
+    .choice-btn:hover {
+      border-color: var(--yellow-400);
+      background: var(--yellow-100);
+      transform: translateX(4px);
+    }
+    .choice-btn.selected {
+      border-color: var(--coral);
+      background: var(--coral-light);
+    }
+
+    .choice-letter {
+      flex-shrink: 0;
+      width: 32px; height: 32px;
+      background: var(--yellow-200);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .8rem;
+      font-weight: 900;
+      color: var(--brown);
+      transition: background .15s;
+    }
+    .choice-btn:hover .choice-letter,
+    .choice-btn.selected .choice-letter {
+      background: var(--yellow-400);
+    }
+
+    .choice-text {
+      font-size: .93rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      line-height: 1.45;
+    }
+
+    /* ══ RESULT SCREEN ══ */
+    #resultScreen { text-align: center; padding-top: 32px; }
+
+    .result-top {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px 32px;
+      width: 100%;
+      box-shadow: var(--shadow-md);
+      margin-bottom: 16px;
+    }
+
+    .result-badge {
+      display: inline-block;
+      background: var(--yellow-300);
+      color: var(--brown);
+      font-size: .72rem;
+      font-weight: 900;
+      padding: 5px 16px;
+      border-radius: 999px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .result-emoji {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,.1));
+      animation: bounce .6s ease both .2s;
+    }
+    @keyframes bounce {
+      0%   { transform: scale(.5); opacity: 0; }
+      70%  { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .result-tag {
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--coral);
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .result-name {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--brown);
+      line-height: 1.3;
+      margin-bottom: 16px;
+    }
+
+    .result-desc {
+      font-size: .92rem;
+      color: var(--brown-light);
+      line-height: 1.75;
+      text-align: left;
+      background: var(--yellow-100);
+      border-radius: var(--radius-sm);
+      padding: 16px 18px;
+    }
+
+    .reason-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 24px 24px;
+      width: 100%;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    .reason-card h3 {
+      font-size: .85rem;
+      font-weight: 900;
+      color: var(--brown);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .reason-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .reason-list li {
+      font-size: .88rem;
+      color: var(--gray-700);
+      padding: 10px 14px;
+      background: var(--gray-100);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.45;
+    }
+
+    .pair-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      width: 100%;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+      text-align: left;
+    }
+    .pair-card h3 {
+      font-size: .85rem;
+      font-weight: 900;
+      color: var(--brown);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+    .pair-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .pair-item {
+      background: var(--yellow-100);
+      border: 1.5px solid var(--yellow-300);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      font-size: .85rem;
+      font-weight: 700;
+      color: var(--brown);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-retry {
+      width: 100%;
+      padding: 18px;
+      border-radius: var(--radius-md);
+      border: none;
+      background: linear-gradient(135deg, var(--yellow-400), var(--yellow-500));
+      color: var(--brown);
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255,193,7,.4);
+      transition: transform .15s, box-shadow .15s;
+      margin-bottom: 12px;
+    }
+    .btn-retry:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255,193,7,.5);
+    }
+
+    .share-note {
+      font-size: .78rem;
+      color: var(--gray-400);
+      margin-top: 4px;
+    }
+
+    /* ── 스코어 바 ── */
+    .score-bars {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .score-label { width: 90px; font-size: .78rem; font-weight: 700; color: var(--brown-light); flex-shrink: 0; }
+    .score-track { flex: 1; height: 10px; background: var(--gray-200); border-radius: 999px; overflow: hidden; }
+    .score-fill { height: 100%; border-radius: 999px; transition: width 1s ease .3s; }
+    .score-val { width: 32px; font-size: .78rem; font-weight: 700; color: var(--brown); }
+
+    /* ── 하단 브랜드 ── */
+    .brand-footer {
+      margin-top: 8px;
+      font-size: .72rem;
+      color: var(--gray-400);
+      text-align: center;
+      padding-bottom: 20px;
+    }
+    .brand-footer strong { color: var(--brown-light); }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ START ══════════════ -->
+<div class="screen active" id="startScreen">
+  <div class="logo-bar">
+    <span class="logo-emoji">🍰</span>
+    <span class="logo-name">황홀스레</span>
+  </div>
+
+  <div class="start-card">
+    <span class="start-illustration">✨🍮✨</span>
+    <h1 class="start-title">
+      나에게 꼭 맞는<br>
+      <em>디저트</em>는 뭘까?
+    </h1>
+    <p class="start-desc">
+      5가지 질문에 솔직하게 답하면<br>
+      당신의 성격에 딱 맞는 황홀스레 디저트를<br>
+      추천해드려요 🌟
+    </p>
+    <div class="tag-row">
+      <span class="tag">⏱ 1분 완성</span>
+      <span class="tag">✅ 5문항</span>
+      <span class="tag">🎁 3가지 결과</span>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">테스트 시작하기 →</button>
+    <p class="sub-note">정답은 없어요, 솔직한 내 모습이 가장 정확해요 💛</p>
+  </div>
+
+  <div class="brand-footer">ⓒ 황홀스레 디저트 카페</div>
+</div>
+
+<!-- ══════════════ QUIZ ══════════════ -->
+<div class="screen" id="quizScreen">
+  <div class="logo-bar" style="padding-top:24px;">
+    <span class="logo-name" style="font-size:.65rem;">황홀스레</span>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span id="progressLabel">질문 1 / 5</span>
+      <span id="progressPct">20%</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill" style="width:20%"></div>
+    </div>
+  </div>
+
+  <div class="q-card">
+    <span class="q-badge" id="qBadge">Q 01</span>
+    <span class="q-emoji" id="qEmoji">☕</span>
+    <p class="q-text" id="qText">질문이 여기에 표시됩니다.</p>
+  </div>
+
+  <div class="choices" id="choicesWrap"></div>
+</div>
+
+<!-- ══════════════ RESULT ══════════════ -->
+<div class="screen" id="resultScreen">
+  <div class="logo-bar" style="padding-top:24px;">
+    <span class="logo-name" style="font-size:.65rem;">황홀스레</span>
+  </div>
+
+  <div class="result-top">
+    <span class="result-badge">✨ 나의 디저트 유형</span>
+    <span class="result-emoji" id="resultEmoji">🍓</span>
+    <p class="result-tag" id="resultTag">달콤 로맨틱 타입</p>
+    <h2 class="result-name" id="resultName">딸기 생크림 케이크</h2>
+    <div class="trend-info" id="trendInfo" style="display:flex;align-items:flex-start;gap:10px;background:var(--yellow-100);border-radius:12px;padding:12px 14px;margin:14px 0 10px;text-align:left;">
+      <span style="font-size:1.2rem;flex-shrink:0;">📈</span>
+      <div>
+        <span id="trendBadge" style="font-size:.72rem;font-weight:900;color:var(--coral);display:block;margin-bottom:4px;"></span>
+        <span id="trendDesc" style="font-size:.82rem;color:var(--brown-light);line-height:1.6;"></span>
+      </div>
+    </div>
+    <p class="result-desc" id="resultDesc">설명이 여기에 들어갑니다.</p>
+  </div>
+
+  <!-- 점수 분포 -->
+  <div class="score-bars" id="scoreBarsWrap" style="background:#fff;border-radius:20px;padding:20px 24px;box-shadow:var(--shadow-sm);">
+    <h3 style="font-size:.85rem;font-weight:900;color:var(--brown);margin-bottom:14px;">📊 나의 디저트 성향 분포</h3>
+    <div class="score-row">
+      <div class="score-label">🧈 버터떡</div>
+      <div class="score-track"><div class="score-fill" id="barA" style="width:0%;background:linear-gradient(90deg,#f6ad55,#ed8936);"></div></div>
+      <div class="score-val" id="valA">0%</div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">🍪 두쫀쿠</div>
+      <div class="score-track"><div class="score-fill" id="barB" style="width:0%;background:linear-gradient(90deg,#68d391,#38a169);"></div></div>
+      <div class="score-val" id="valB">0%</div>
+    </div>
+    <div class="score-row">
+      <div class="score-label">🍦 요아정</div>
+      <div class="score-track"><div class="score-fill" id="barC" style="width:0%;background:linear-gradient(90deg,#63b3ed,#3182ce);"></div></div>
+      <div class="score-val" id="valC">0%</div>
+    </div>
+  </div>
+
+  <div class="reason-card" id="reasonCard">
+    <h3>💛 이 결과가 나온 이유</h3>
+    <ul class="reason-list" id="reasonList"></ul>
+  </div>
+
+  <div class="pair-card" id="pairCard">
+    <h3>☕ 황홀스레 추천 페어링</h3>
+    <div class="pair-row" id="pairRow"></div>
+  </div>
+
+  <button class="btn-retry" onclick="retryQuiz()">🔄 다시 테스트하기</button>
+  <p class="share-note">결과를 캡처해서 친구에게 공유해보세요 📸</p>
+
+  <div class="brand-footer">ⓒ <strong>황홀스레</strong> 디저트 카페</div>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   데이터 설계 (2025-2026 국내 인기 디저트 리서치 기반)
+   점수 배열: [버터떡(A), 두쫀쿠(B), 요아정(C)]
+
+   결과 A (버터떡)  : 따뜻함·감성·전통과 현대의 조화를 아는 사람
+                      2026 인기 1위 (인기지수 98점), 상하이발 K-디저트
+   결과 B (두쫀쿠)  : 트렌드 감각·비주얼·SNS 감성의 소유자
+                      2025–26 SNS 폭발, 피스타치오+카타이피 K-퓨전
+   결과 C (요아정)  : 사교적·자유로운·나만의 스타일을 즐기는 사람
+                      요거트 아이스크림을 놀이문화로 만든 2025 문화 현상
+══════════════════════════════════════════ */
+
+const questions = [
+  {
+    emoji: "🌸",
+    badge: "Q 01",
+    text: "주말 오후, 완벽한 나만의 시간은?",
+    choices: [
+      { text: "좋아하는 책 한 권과 따뜻한 음료, 조용한 카페 한 켠 🪟", scores: [2, 0, 0] },
+      { text: "새로 생긴 핫플 카페, 일단 사진부터 📸",                  scores: [0, 2, 0] },
+      { text: "친구들과 토핑 고르며 내 취향 조합 만들기 🎨",            scores: [0, 0, 2] },
+      { text: "집에서 나만의 감성 플레이리스트 들으며 멍 때리기 🎧",    scores: [1, 1, 0] },
+    ]
+  },
+  {
+    emoji: "🛍️",
+    badge: "Q 02",
+    text: "디저트 카페를 고를 때 나의 기준은?",
+    choices: [
+      { text: "분위기가 따뜻하고 포근한 곳이 최고 🕯️",                  scores: [2, 0, 0] },
+      { text: "SNS에서 핫한 곳, 비주얼이 예뻐야지 ✨",                  scores: [0, 2, 0] },
+      { text: "친구들이랑 오래 앉아 수다 떨 수 있는 곳 💬",              scores: [0, 0, 2] },
+      { text: "남들이 잘 모르는 숨은 맛집이면 더 좋아 🗺️",              scores: [1, 1, 0] },
+    ]
+  },
+  {
+    emoji: "😤",
+    badge: "Q 03",
+    text: "스트레스를 받았을 때 나는?",
+    choices: [
+      { text: "따뜻하고 달달한 것 먹으며 혼자 감정 정리 🍵",            scores: [2, 0, 0] },
+      { text: "예쁜 디저트 찍어서 올리며 기분 전환 📱",                  scores: [0, 2, 0] },
+      { text: "친한 친구에게 전화해서 수다 떨고 에너지 충전 📞",        scores: [0, 0, 2] },
+      { text: "새로운 카페 탐방으로 기분 리셋 🚶",                      scores: [0, 1, 1] },
+    ]
+  },
+  {
+    emoji: "📸",
+    badge: "Q 04",
+    text: "내 SNS 피드를 한마디로 표현하면?",
+    choices: [
+      { text: "따뜻한 톤, 일상의 소소한 감성 사진 위주 🌷",              scores: [2, 0, 0] },
+      { text: "트렌디한 핫플·신메뉴·예쁜 디저트 가득 🍰",               scores: [0, 2, 0] },
+      { text: "친구 태그, 같이 먹은 것 공유, 활발한 소통 📣",            scores: [0, 0, 2] },
+      { text: "거의 안 올림, 구경 전문 관찰자 🔍",                      scores: [1, 1, 0] },
+    ]
+  },
+  {
+    emoji: "🍴",
+    badge: "Q 05",
+    text: "디저트를 고를 때 가장 중요한 건?",
+    choices: [
+      { text: "쫄깃하고 따뜻한 식감, 먹으면 마음이 편안해지는 것 🧈",    scores: [2, 0, 0] },
+      { text: "비주얼이 터지는 것, 사진 찍었을 때 완벽해야 해 🤳",       scores: [0, 2, 0] },
+      { text: "내가 직접 커스텀할 수 있는 것, 나만의 조합이 최고 🎨",    scores: [0, 0, 2] },
+      { text: "계절 한정·신메뉴, 지금 이 순간만 먹을 수 있는 것 ⏳",     scores: [0, 1, 1] },
+    ]
+  }
+];
+
+const results = {
+  A: {
+    emoji: "🧈",
+    tag: "🤍 따뜻한 감성 타입",
+    name: "버터떡",
+    trendBadge: "📊 2026 인기 1위 · 인기지수 98점",
+    trendDesc: "전통 떡의 쫄깃함 + 서양 버터의 풍미가 만난 2026년 상반기 최고 핫 디저트. 상하이에서 건너와 한국 전역을 강타했어요.",
+    desc: "당신은 새로운 것도 좋아하지만, 결국 따뜻하고 포근한 것으로 돌아오는 사람이에요. 전통의 쫄깃함에 서양의 버터 풍미를 더한 버터떡처럼, 익숙함과 새로움의 절묘한 균형을 아는 감성파입니다. 화려하지 않아도 진심이 느껴지는 것에 감동받는 당신, 주변 사람들이 곁에 있고 싶어하는 사람이에요.",
+    reasons: [
+      "🕯️ 따뜻하고 포근한 분위기를 가장 중요하게 여기는 당신",
+      "🍵 달달한 것으로 혼자 차분히 감정을 정리하는 섬세함",
+      "🌷 소소하지만 감성적인 일상을 사랑하는 취향",
+      "🧈 쫄깃하고 따뜻한 식감에서 편안함을 찾는 성향",
+    ],
+    pairs: [
+      { icon: "🧈", label: "버터떡" },
+      { icon: "🫖", label: "얼그레이 밀크티" },
+      { icon: "🍯", label: "약과 세트" },
+    ],
+  },
+  B: {
+    emoji: "🍪",
+    tag: "✨ 트렌드 감성 타입",
+    name: "두바이 쫀쫀쿠키 (두쫀쿠)",
+    trendBadge: "📊 SNS 폭발 · 인기지수 95점",
+    trendDesc: "마시멜로·피스타치오·카타이피가 어우러진 두바이 초콜릿의 한국식 진화형. 흑임자·인절미 크림 등 K-퓨전 버전도 인기 급상승 중.",
+    desc: "당신은 트렌드 감각이 남다른 사람이에요! 새로운 것을 누구보다 빠르게 캐치하고, 그걸 예쁘게 표현하는 능력도 탁월하죠. 두쫀쿠처럼 겉보기엔 화려하지만 먹어보면 다양한 맛이 조화롭게 터지는 것처럼, 당신도 첫인상이 강렬하면서도 곁에 있을수록 매력이 더 느껴지는 사람이에요.",
+    reasons: [
+      "📸 핫플 카페 발굴과 비주얼 디저트 사진이 일상인 당신",
+      "✨ SNS 올렸을 때 완벽한 비주얼을 중요하게 생각하는 감각",
+      "🍰 트렌디한 핫플·신메뉴로 가득한 피드의 소유자",
+      "🤳 지금 이 순간 유행하는 것에 빠르게 반응하는 센스",
+    ],
+    pairs: [
+      { icon: "🍪", label: "두쫀쿠" },
+      { icon: "🍵", label: "피스타치오 라떼" },
+      { icon: "🎂", label: "한입 미니 케이크" },
+    ],
+  },
+  C: {
+    emoji: "🍦",
+    tag: "🌈 자유로운 소울 타입",
+    name: "요아정 (요거트 아이스크림)",
+    trendBadge: "📊 2025 문화 현상 · 인기지수 90점",
+    trendDesc: "수십 가지 토핑을 직접 조합하는 요거트 아이스크림. 단순한 디저트를 넘어 '놀이 문화'로 자리잡은 2025년 최고의 문화 현상.",
+    desc: "당신은 어디서나 자신만의 스타일을 만들어내는 자유로운 영혼이에요! 정해진 틀 없이 내가 원하는 대로 커스텀하는 것을 즐기고, 함께할 때 더 빛나는 사교적인 사람이죠. 요아정처럼 베이스는 같아도 토핑 조합에 따라 완전히 달라지는, 예측 불가능한 매력의 소유자예요.",
+    reasons: [
+      "🎨 토핑을 직접 고르며 나만의 조합을 완성하는 커스텀 감각",
+      "💬 친구들과 오래 앉아 수다 떠는 것을 가장 좋아하는 사교성",
+      "📣 함께 먹은 것을 공유하고 소통하는 활발한 에너지",
+      "🚶 기분 전환이 필요하면 새로운 카페 탐방으로 리셋하는 행동파",
+    ],
+    pairs: [
+      { icon: "🍦", label: "요아정 (커스텀 요거트)" },
+      { icon: "🧊", label: "망고 빙수" },
+      { icon: "🍹", label: "생과일 에이드" },
+    ],
+  }
+};
+
+/* ══ 상태 ══ */
+let currentQ = 0;
+let scores = [0, 0, 0]; // [A케이크, B흑임자, C망고]
+
+/* ══ 시작 ══ */
+function startQuiz() {
+  currentQ = 0;
+  scores = [0, 0, 0];
+  showScreen('quizScreen');
+  renderQuestion();
+}
+
+function retryQuiz() {
+  showScreen('startScreen');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active');
+  // 애니메이션 재실행
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ══ 질문 렌더링 ══ */
+function renderQuestion() {
+  const q = questions[currentQ];
+  const pct = Math.round(((currentQ + 1) / questions.length) * 100);
+
+  document.getElementById('progressLabel').textContent = `질문 ${currentQ + 1} / ${questions.length}`;
+  document.getElementById('progressPct').textContent = `${pct}%`;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qBadge').textContent = q.badge;
+  document.getElementById('qEmoji').textContent = q.emoji;
+  document.getElementById('qText').textContent = q.text;
+
+  const letters = ['A', 'B', 'C', 'D'];
+  const wrap = document.getElementById('choicesWrap');
+  wrap.innerHTML = '';
+
+  q.choices.forEach((c, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.innerHTML = `
+      <div class="choice-letter">${letters[i]}</div>
+      <div class="choice-text">${c.text}</div>
+    `;
+    btn.onclick = () => selectChoice(i, btn);
+    wrap.appendChild(btn);
+  });
+}
+
+/* ══ 선택 처리 ══ */
+function selectChoice(idx, btn) {
+  // 중복 클릭 방지
+  document.querySelectorAll('.choice-btn').forEach(b => b.onclick = null);
+
+  btn.classList.add('selected');
+
+  const chosen = questions[currentQ].choices[idx].scores;
+  scores[0] += chosen[0];
+  scores[1] += chosen[1];
+  scores[2] += chosen[2];
+
+  setTimeout(() => {
+    currentQ++;
+    if (currentQ < questions.length) {
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 420);
+}
+
+/* ══ 결과 계산 및 표시 ══ */
+function showResult() {
+  const max = Math.max(...scores);
+  let key = 'A';
+  if (scores[1] === max && scores[1] >= scores[0]) key = 'B';
+  if (scores[2] === max && scores[2] >= scores[0] && scores[2] >= scores[1]) key = 'C';
+  // 동점 처리: A > B > C 우선
+  if (scores[0] === scores[1] && scores[0] === scores[2]) key = 'A';
+
+  const r = results[key];
+  document.getElementById('resultEmoji').textContent = r.emoji;
+  document.getElementById('resultTag').textContent = r.tag;
+  document.getElementById('resultName').textContent = r.name;
+  document.getElementById('trendBadge').textContent = r.trendBadge;
+  document.getElementById('trendDesc').textContent = r.trendDesc;
+  document.getElementById('resultDesc').textContent = r.desc;
+
+  // 이유 목록
+  const ul = document.getElementById('reasonList');
+  ul.innerHTML = '';
+  r.reasons.forEach(reason => {
+    const li = document.createElement('li');
+    li.textContent = reason;
+    ul.appendChild(li);
+  });
+
+  // 페어링
+  const pr = document.getElementById('pairRow');
+  pr.innerHTML = '';
+  r.pairs.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'pair-item';
+    div.innerHTML = `<span>${p.icon}</span>${p.label}`;
+    pr.appendChild(div);
+  });
+
+  // 점수 바 (퍼센트)
+  const total = scores.reduce((a, b) => a + b, 0) || 1;
+  const pctA = Math.round((scores[0] / total) * 100);
+  const pctB = Math.round((scores[1] / total) * 100);
+  const pctC = 100 - pctA - pctB;
+
+  showScreen('resultScreen');
+
+  setTimeout(() => {
+    document.getElementById('barA').style.width = pctA + '%';
+    document.getElementById('barB').style.width = pctB + '%';
+    document.getElementById('barC').style.width = pctC + '%';
+    document.getElementById('valA').textContent = pctA + '%';
+    document.getElementById('valB').textContent = pctB + '%';
+    document.getElementById('valC').textContent = pctC + '%';
+  }, 300);
+}
+</script>
+</body>
+</html>
